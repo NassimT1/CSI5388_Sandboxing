@@ -1,0 +1,3 @@
+python test_sandbox.py "CSI5833_part1_project - Copy\data\SQL_injection_Dataset_Feature_Extraction_Results.csv"
+
+python test_sandbox.py "CSI5833_part1_project - Copy\data\clean_sql_dataset_Feature_Extraction_Results.csv"
