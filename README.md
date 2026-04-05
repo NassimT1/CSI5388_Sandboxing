@@ -20,7 +20,7 @@ they behave like SQL injections. Here's how it does this.
     The system flags the query if:\
        - A UNION-based attack exposes any hidden “canary” data\
        - A condition like OR 1=1, which forces all rows, including trap data, to be returned\
-       - Small changes in results, which indicates blind SQL injection techniques\
+       - Small changes in results, which indicates blind SQL injection techniques
 5. Static Fallback: If the query is simply too broken to be executed, a strict set of regex-based
     checks are performed to catch obvious injection patterns.
 
