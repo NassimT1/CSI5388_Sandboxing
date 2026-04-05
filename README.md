@@ -17,10 +17,10 @@ they behave like SQL injections. Here's how it does this.
 3. Canary Traps: It fills the database with special “trap” data. It's data that should not be
     returned unless something malicious is happening.
 4. Execution & Monitoring: It runs the query and monitors it to see if it behaves suspiciously.
-    The system flags the query if:
-       o A UNION-based attack exposes any hidden “canary” data
-       o A condition like OR 1=1, which forces all rows, including trap data, to be returned
-       o Small changes in results, which indicates blind SQL injection techniques
+    The system flags the query if:\
+       - A UNION-based attack exposes any hidden “canary” data\
+       - A condition like OR 1=1, which forces all rows, including trap data, to be returned\
+       - Small changes in results, which indicates blind SQL injection techniques\
 5. Static Fallback: If the query is simply too broken to be executed, a strict set of regex-based
     checks are performed to catch obvious injection patterns.
 
